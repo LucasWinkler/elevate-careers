@@ -27,23 +27,9 @@ const wideScreenSizeInPixels = 640;
 
 function SearchForm() {
   // const router = useRouter();
-  const [isWideScreen, setIsWideScreen] = useState<boolean>();
 
   const keywordsInputRef = useRef<HTMLInputElement>(null);
   const locationInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsWideScreen(window.innerWidth >= wideScreenSizeInPixels);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
