@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Reach New Heights in Your Career - ElevateCareers",
@@ -21,7 +22,8 @@ export default function RootLayout({
       </head>
       <body className="leading-relaxed antialiased">
         <Header />
-        {children}
+        <main>{children}</main>
+        <Toaster />
       </body>
     </html>
   );
