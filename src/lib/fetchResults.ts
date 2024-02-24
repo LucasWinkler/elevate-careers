@@ -79,9 +79,9 @@ export async function fetchResults(searchParams: SearchParams) {
           description: {
             _fns: [
               {
-                _fn: "xpath_one",
+                _fn: "xpath",
                 _args: [
-                  ".//table[@class='css-1u8dvic eu4oa1w0']//div[contains(@class, 'heading6')]//ul//text()",
+                  ".//table[@class='css-1u8dvic eu4oa1w0']//div[@class='css-9446fg eu4oa1w0']//ul/li//text()",
                 ],
               },
             ],
@@ -110,6 +110,16 @@ export async function fetchResults(searchParams: SearchParams) {
             _fn: "xpath_one",
             _args: [
               ".//div[contains(@class, 'jobsearch-JobCountAndSortPane-jobCount')]/span/text()",
+            ],
+          },
+        ],
+      },
+      related_jobs: {
+        _fns: [
+          {
+            _fn: "xpath",
+            _args: [
+              ".//a[@data-testid='relatedQuery']/span[@class='css-1cnu4h8 eu4oa1w0']/text()",
             ],
           },
         ],

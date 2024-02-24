@@ -61,6 +61,15 @@ const generatePaginationLinks = ({
   return links;
 };
 
+function formatDescriptions(descriptions: string[]): string[] {
+  const formattedDescriptions: string[] = descriptions
+    .join(" ")
+    .split(/[.\n]+/)
+    .filter((description) => description.trim() !== "");
+
+  return formattedDescriptions.map((description) => description.trim());
+}
+
 async function SearchPage({ searchParams }: SearchPageProps) {
   if (!searchParams.url) {
     return notFound();
@@ -72,16 +81,21 @@ async function SearchPage({ searchParams }: SearchPageProps) {
     return <div>No results...</div>;
   }
 
-  const { jobs, total_jobs } = results.content;
+  const { jobs, total_jobs, related_jobs } = results.content;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_SCRAPING_URL;
   const startParam = searchParams.start ? Number(searchParams.start) : 0;
+
+  // console.log(jobs);
+
+  // jobs.map((x, i) => {
+  //   console.log("Description:", i, x.description);
+  // });
 
   const getPreviousPageUrl = () => {
     const start = Math.max(0, startParam - JOBS_PER_PAGE);
     return `/search?url=${searchParams.url}&l=${searchParams.l}${start !== 0 ? `&start=${start}` : ""}`;
   };
 
-  // Function to generate URL for next page
   const getNextPageUrl = () => {
     const start = startParam + JOBS_PER_PAGE;
     return `/search?url=${searchParams.url}&l=${searchParams.l}&start=${start}`;
@@ -135,6 +149,11 @@ async function SearchPage({ searchParams }: SearchPageProps) {
                       </>
                     )}
                   </ul>
+                  <ul className="mb-2 ml-5 max-w-[50ch] list-disc leading-normal text-secondary-foreground/80">
+                    {formatDescriptions(item.description).map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
                   <div className="flex items-end justify-between text-sm text-secondary-foreground/70">
                     <span className="">{item.location}</span>
                     <span className="">{item.date}</span>
@@ -163,60 +182,17 @@ async function SearchPage({ searchParams }: SearchPageProps) {
             People also searched
           </h2>
           <ul className="flex flex-wrap gap-2">
-            <li>
-              <Button
-                size="sm"
-                className={badgeVariants({ variant: "secondary" })}
-              >
-                <SearchIcon className="mr-2 h-3 w-3" />
-                software engineer
-              </Button>
-            </li>
-            <li>
-              <Button
-                size="sm"
-                className={badgeVariants({ variant: "secondary" })}
-              >
-                <SearchIcon className="mr-2 h-3 w-3" />
-                developer
-              </Button>
-            </li>
-            <li>
-              <Button
-                size="sm"
-                className={badgeVariants({ variant: "secondary" })}
-              >
-                <SearchIcon className="mr-2 h-3 w-3" />
-                junior developer
-              </Button>
-            </li>
-            <li>
-              <Button
-                size="sm"
-                className={badgeVariants({ variant: "secondary" })}
-              >
-                <SearchIcon className="mr-2 h-3 w-3" />
-                data analyst
-              </Button>
-            </li>
-            <li>
-              <Button
-                size="sm"
-                className={badgeVariants({ variant: "secondary" })}
-              >
-                <SearchIcon className="mr-2 h-3 w-3" />
-                web developer
-              </Button>
-            </li>
-            <li>
-              <Button
-                size="sm"
-                className={badgeVariants({ variant: "secondary" })}
-              >
-                <SearchIcon className="mr-2 h-3 w-3" />
-                full stack developer
-              </Button>
-            </li>
+            {related_jobs.map((title, i) => (
+              <li key={title}>
+                <Button
+                  size="sm"
+                  className={badgeVariants({ variant: "secondary" })}
+                >
+                  <SearchIcon className="mr-2 h-3 w-3" />
+                  {title}
+                </Button>
+              </li>
+            ))}
           </ul>
         </div>
       </section>
