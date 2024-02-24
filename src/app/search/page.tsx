@@ -61,14 +61,14 @@ const generatePaginationLinks = ({
   return links;
 };
 
-function formatDescriptions(descriptions: string[]): string[] {
-  const formattedDescriptions: string[] = descriptions
-    .join(" ")
-    .split(/[.\n]+/)
-    .filter((description) => description.trim() !== "");
+// function formatDescriptions(descriptions: string[]): string[] {
+//   const formattedDescriptions: string[] = descriptions
+//     .join(" ")
+//     .split(/[.\n]+/)
+//     .filter((description) => description.trim() !== "");
 
-  return formattedDescriptions.map((description) => description.trim());
-}
+//   return formattedDescriptions.map((description) => description.trim());
+// }
 
 async function SearchPage({ searchParams }: SearchPageProps) {
   if (!searchParams.url) {
@@ -77,9 +77,11 @@ async function SearchPage({ searchParams }: SearchPageProps) {
 
   const results = await fetchResults(searchParams);
 
-  if (!results || !results.content || !results.content.jobs) {
+  if (!results) {
     return <div>No results...</div>;
   }
+
+  console.log("results", results);
 
   const { jobs, total_jobs, related_jobs } = results.content;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_SCRAPING_URL;
@@ -144,7 +146,10 @@ async function SearchPage({ searchParams }: SearchPageProps) {
                     )}
                   </ul>
                   <ul className="mb-2 ml-5 max-w-[50ch] list-disc leading-normal text-secondary-foreground/80">
-                    {formatDescriptions(item.description).map((item, i) => (
+                    {/* {formatDescriptions(item.description).map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))} */}
+                    {item.description.map((item, i) => (
                       <li key={i}>{item}</li>
                     ))}
                   </ul>
