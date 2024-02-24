@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header";
 import { Toaster } from "@/components/ui/toaster";
+import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "Reach New Heights in Your Career - ElevateCareers",
@@ -23,6 +24,7 @@ export default function RootLayout({
       <body className="leading-relaxed antialiased">
         <Header />
         <main>{children}</main>
+        <Footer />
         <Toaster />
       </body>
     </html>
