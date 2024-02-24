@@ -21,6 +21,7 @@ import {
   PaginationLink,
   PaginationNext,
 } from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
 
 export type SearchParams = {
   url: URL;
@@ -62,10 +63,6 @@ const generatePaginationLinks = ({
 };
 
 function formatDescriptions(descriptions: string[]): string[] {
-  if (!descriptions) {
-    return [];
-  }
-
   const formattedDescriptions: string[] = descriptions
     .join(" ")
     .split(/[.\n]+/)
@@ -85,8 +82,6 @@ async function SearchPage({ searchParams }: SearchPageProps) {
     return <div>No results...</div>;
   }
 
-  console.log("results", results);
-
   const { jobs, total_jobs, related_jobs } = results.content;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_SCRAPING_URL;
   const startParam = searchParams.start ? Number(searchParams.start) : 0;
@@ -104,7 +99,7 @@ async function SearchPage({ searchParams }: SearchPageProps) {
   return (
     <>
       <section className="mx-auto flex max-w-7xl flex-col justify-between gap-6 bg-white px-6 py-6 md:flex-row md:py-10 lg:py-16 xl:py-16">
-        <div className="space-y-6 md:w-2/3">
+        <div className={cn("w-full space-y-6", related_jobs && "md:w-2/3")}>
           <div className="flex w-full justify-between self-start">
             <h2 className="text-lg font-bold tracking-tight text-neutral-800">
               {total_jobs} found
@@ -136,20 +131,20 @@ async function SearchPage({ searchParams }: SearchPageProps) {
                       <ExternalLinkIcon className="h-6 w-6 rounded-sm text-secondary-foreground/50 transition-colors duration-300 group-hover:text-primary" />
                     </div>
                   </div>
-                  <ul className="mb-1 flex flex-row gap-2 text-nowrap text-sm text-secondary-foreground/90">
+                  <ul className="mb-2 flex flex-row flex-wrap gap-2 text-nowrap text-sm text-secondary-foreground/90">
                     <li className="font-medium text-secondary-foreground">
                       {item.company}
                     </li>
                     {item.salary != null && (
                       <>
-                        <li>&#8226;</li>
+                        {/* <li>&#8226;</li> */}
                         <li>
-                          <Badge>{item.salary || "$ Not known"}</Badge>
+                          <Badge>{item.salary}</Badge>
                         </li>
                       </>
                     )}
                   </ul>
-                  <ul className="mb-2 ml-5 max-w-[50ch] list-disc leading-normal text-secondary-foreground/80">
+                  <ul className="mb-3 ml-5 max-w-[50ch] list-disc leading-normal text-secondary-foreground/80">
                     {formatDescriptions(item.description).map((item, i) => (
                       <li key={i}>{item}</li>
                     ))}
@@ -177,24 +172,26 @@ async function SearchPage({ searchParams }: SearchPageProps) {
             </PaginationContent>
           </Pagination>
         </div>
-        <div className="w-full md:w-1/3">
-          <h2 className="mb-3 text-lg font-bold tracking-tight text-neutral-800">
-            People also searched
-          </h2>
-          <ul className="flex flex-wrap gap-2">
-            {related_jobs.map((title, i) => (
-              <li key={title}>
-                <Button
-                  size="sm"
-                  className={badgeVariants({ variant: "secondary" })}
-                >
-                  <SearchIcon className="mr-2 h-3 w-3" />
-                  {title}
-                </Button>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {related_jobs && (
+          <div className="w-full md:w-1/3">
+            <h2 className="mb-3 text-lg font-bold tracking-tight text-neutral-800">
+              People also searched
+            </h2>
+            <ul className="flex flex-wrap gap-2">
+              {related_jobs.map((title, i) => (
+                <li key={title}>
+                  <Button
+                    size="sm"
+                    className={badgeVariants({ variant: "secondary" })}
+                  >
+                    <SearchIcon className="mr-2 h-3 w-3" />
+                    {title}
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </section>
     </>
   );
