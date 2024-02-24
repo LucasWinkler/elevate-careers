@@ -67,8 +67,6 @@ function formatDescriptions(descriptions: string[]): string[] {
     .split(/[.\n]+/)
     .filter((description) => description.trim() !== "");
 
-  console.log("formatDescriptions", formatDescriptions);
-
   return formattedDescriptions.map((description) => description.trim());
 }
 
@@ -79,7 +77,7 @@ async function SearchPage({ searchParams }: SearchPageProps) {
 
   const results = await fetchResults(searchParams);
 
-  if (!results) {
+  if (!results || !results.content || !results.content.jobs) {
     return <div>No results...</div>;
   }
 
