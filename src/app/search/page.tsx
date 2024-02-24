@@ -13,6 +13,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationLink,
+  PaginationEllipsis,
+  PaginationNext,
+} from "@/components/ui/pagination";
 
 export type SearchParams = {
   url: URL;
@@ -97,6 +106,22 @@ async function SearchPage({ searchParams }: SearchPageProps) {
               </li>
             ))}
           </ul>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href="#">1</PaginationLink>
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
         <div className="w-full md:w-1/3">
           <h2 className="mb-3 text-lg font-bold tracking-tight text-neutral-800">
