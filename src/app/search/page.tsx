@@ -1,3 +1,5 @@
+export const maxDuration = 300;
+
 import { fetchResults } from "@/lib/fetchResults";
 import { notFound } from "next/navigation";
 import { badgeVariants } from "@/components/ui/badge";
@@ -38,8 +40,6 @@ async function SearchPage({ searchParams }: SearchPageProps) {
   console.log(title);
   console.log(total_jobs);
   console.log(jobs[0]);
-
-  console.log(searchParams.url.searchParams);
 
   return (
     <>
