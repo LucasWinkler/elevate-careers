@@ -2,7 +2,7 @@ export const maxDuration = 300;
 
 import { fetchResults } from "@/lib/fetchResults";
 import { notFound } from "next/navigation";
-import { badgeVariants } from "@/components/ui/badge";
+import { Badge, badgeVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExternalLinkIcon, SearchIcon } from "lucide-react";
 import {
@@ -43,8 +43,8 @@ async function SearchPage({ searchParams }: SearchPageProps) {
 
   return (
     <>
-      <section className="mx-auto flex max-w-7xl flex-col justify-between gap-6 bg-white px-6 py-6 sm:flex-row md:py-10 lg:py-16 xl:py-16">
-        <div className="space-y-6 sm:w-2/3">
+      <section className="mx-auto flex max-w-7xl flex-col justify-between gap-6 bg-white px-6 py-6 md:flex-row md:py-10 lg:py-16 xl:py-16">
+        <div className="space-y-6 md:w-2/3">
           <div className="flex w-full justify-between self-start">
             <h2 className="text-lg font-bold tracking-tight text-neutral-800">
               {total_jobs} found
@@ -68,29 +68,37 @@ async function SearchPage({ searchParams }: SearchPageProps) {
                   href={baseUrl + item.link}
                   className="group flex flex-col justify-between rounded-lg border bg-white p-5 text-secondary-foreground ring-offset-background transition-colors hover:bg-secondary focus:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
-                  <div className="flex items-start justify-between">
+                  <div className="mb-1 flex items-start justify-between gap-3">
                     <h3 className="text-base font-bold group-hover:text-primary">
                       {item.title}
                     </h3>
-                    <div className="">
+                    <div>
                       <ExternalLinkIcon className="h-6 w-6 rounded-sm text-secondary-foreground/50 transition-colors duration-300 group-hover:text-primary" />
                     </div>
                   </div>
-                  <ul className="flex flex-row gap-2 text-nowrap text-sm text-secondary-foreground/90">
+                  <ul className="mb-1 flex flex-row gap-2 text-nowrap text-sm text-secondary-foreground/90">
                     <li className="font-medium text-secondary-foreground">
                       {item.company}
                     </li>
-                    <li>&#8226;</li>
-                    <li>Full Time</li>
-                    <li>&#8226;</li>
-                    <li>50-100 employees</li>
+                    {item.salary != null && (
+                      <>
+                        <li>&#8226;</li>
+                        <li>
+                          <Badge>{item.salary || "$ Not known"}</Badge>
+                        </li>
+                      </>
+                    )}
                   </ul>
+                  <div className="flex items-end justify-between text-sm text-secondary-foreground/70">
+                    <span className="">{item.location}</span>
+                    <span className="">{item.date}</span>
+                  </div>
                 </Link>
               </li>
             ))}
           </ul>
         </div>
-        <div className="h-[200px] w-full sm:w-1/3">
+        <div className="w-full md:w-1/3">
           <h2 className="mb-3 text-lg font-bold tracking-tight text-neutral-800">
             People also searched
           </h2>
