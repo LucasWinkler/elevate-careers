@@ -44,7 +44,8 @@ function SearchForm() {
     url.searchParams.set("q", keywords.trim());
     url.searchParams.set("l", location.trim());
 
-    router.push(`/search?url=${url.href}`);
+    // router.push(`/search?url=${url.href}`);
+    window.location.href = `/search?url=${url.href}`;
   }
 
   return (
