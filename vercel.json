@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "search": {
+      "maxDuration": 120
+    }
+  }
+}
