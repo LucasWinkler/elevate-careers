@@ -67,6 +67,8 @@ function formatDescriptions(descriptions: string[]): string[] {
     .split(/[.\n]+/)
     .filter((description) => description.trim() !== "");
 
+  console.log("formatDescriptions", formatDescriptions);
+
   return formattedDescriptions.map((description) => description.trim());
 }
 
@@ -84,12 +86,6 @@ async function SearchPage({ searchParams }: SearchPageProps) {
   const { jobs, total_jobs, related_jobs } = results.content;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_SCRAPING_URL;
   const startParam = searchParams.start ? Number(searchParams.start) : 0;
-
-  // console.log(jobs);
-
-  // jobs.map((x, i) => {
-  //   console.log("Description:", i, x.description);
-  // });
 
   const getPreviousPageUrl = () => {
     const start = Math.max(0, startParam - JOBS_PER_PAGE);
