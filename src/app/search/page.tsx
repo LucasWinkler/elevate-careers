@@ -61,14 +61,18 @@ const generatePaginationLinks = ({
   return links;
 };
 
-// function formatDescriptions(descriptions: string[]): string[] {
-//   const formattedDescriptions: string[] = descriptions
-//     .join(" ")
-//     .split(/[.\n]+/)
-//     .filter((description) => description.trim() !== "");
+function formatDescriptions(descriptions: string[]): string[] {
+  if (!descriptions) {
+    return [];
+  }
 
-//   return formattedDescriptions.map((description) => description.trim());
-// }
+  const formattedDescriptions: string[] = descriptions
+    .join(" ")
+    .split(/[.\n]+/)
+    .filter((description) => description.trim() !== "");
+
+  return formattedDescriptions.map((description) => description.trim());
+}
 
 async function SearchPage({ searchParams }: SearchPageProps) {
   if (!searchParams.url) {
@@ -146,10 +150,7 @@ async function SearchPage({ searchParams }: SearchPageProps) {
                     )}
                   </ul>
                   <ul className="mb-2 ml-5 max-w-[50ch] list-disc leading-normal text-secondary-foreground/80">
-                    {/* {formatDescriptions(item.description).map((item, i) => (
-                      <li key={i}>{item}</li>
-                    ))} */}
-                    {item.description.map((item, i) => (
+                    {formatDescriptions(item.description).map((item, i) => (
                       <li key={i}>{item}</li>
                     ))}
                   </ul>
