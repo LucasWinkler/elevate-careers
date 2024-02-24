@@ -19,17 +19,46 @@ import {
   PaginationItem,
   PaginationPrevious,
   PaginationLink,
-  PaginationEllipsis,
   PaginationNext,
 } from "@/components/ui/pagination";
 
 export type SearchParams = {
   url: URL;
   l: string;
+  start: string;
 };
 
 type SearchPageProps = {
   searchParams: SearchParams;
+};
+
+interface PaginationProps {
+  searchParams: SearchParams;
+  totalItems: string;
+}
+
+const JOBS_PER_PAGE = 15;
+
+const generatePaginationLinks = ({
+  searchParams,
+  totalItems,
+}: PaginationProps) => {
+  const totalPages = Math.ceil(Number(totalItems) / JOBS_PER_PAGE);
+
+  const links = [];
+  for (let i = 1; i <= totalPages; i++) {
+    const start = (i - 1) * JOBS_PER_PAGE;
+    links.push(
+      <PaginationItem key={i}>
+        <PaginationLink
+          href={`/search?url=${searchParams.url}&l=${searchParams.l}&start=${start}`}
+        >
+          {i}
+        </PaginationLink>
+      </PaginationItem>,
+    );
+  }
+  return links;
 };
 
 async function SearchPage({ searchParams }: SearchPageProps) {
@@ -43,12 +72,20 @@ async function SearchPage({ searchParams }: SearchPageProps) {
     return <div>No results...</div>;
   }
 
-  const { title, jobs, total_jobs } = results.content;
+  const { jobs, total_jobs } = results.content;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_SCRAPING_URL;
+  const startParam = searchParams.start ? Number(searchParams.start) : 0;
 
-  console.log(title);
-  console.log(total_jobs);
-  console.log(jobs[0]);
+  const getPreviousPageUrl = () => {
+    const start = Math.max(0, startParam - JOBS_PER_PAGE);
+    return `/search?url=${searchParams.url}&l=${searchParams.l}${start !== 0 ? `&start=${start}` : ""}`;
+  };
+
+  // Function to generate URL for next page
+  const getNextPageUrl = () => {
+    const start = startParam + JOBS_PER_PAGE;
+    return `/search?url=${searchParams.url}&l=${searchParams.l}&start=${start}`;
+  };
 
   return (
     <>
@@ -109,16 +146,14 @@ async function SearchPage({ searchParams }: SearchPageProps) {
           <Pagination>
             <PaginationContent>
               <PaginationItem>
-                <PaginationPrevious href="#" />
+                <PaginationPrevious href={getPreviousPageUrl()} />
               </PaginationItem>
+              {generatePaginationLinks({
+                searchParams,
+                totalItems: total_jobs,
+              })}
               <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
+                <PaginationNext href={getNextPageUrl()} />
               </PaginationItem>
             </PaginationContent>
           </Pagination>
