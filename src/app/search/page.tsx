@@ -118,20 +118,18 @@ async function SearchPage({ searchParams }: SearchPageProps) {
           </div>
           <ul className="flex flex-col gap-4">
             {jobs.map((item, i) => (
-              <li key={item.link}>
+              <li key={item.link} className="">
                 <Link
                   href={baseUrl + item.link}
-                  className="group flex flex-col justify-between rounded-lg border bg-white p-5 text-secondary-foreground ring-offset-background transition-colors hover:bg-secondary focus:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className="group flex flex-col justify-between  rounded-lg border bg-white p-5 text-secondary-foreground ring-offset-background transition-colors hover:bg-secondary focus:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 >
-                  <div className="mb-1 flex items-start justify-between gap-3">
-                    <h3 className="text-base font-bold group-hover:text-primary">
+                  <div className="mb-1 flex items-start justify-between gap-3 ">
+                    <h3 className="min-w-[1%] break-words text-base font-bold group-hover:text-primary">
                       {item.title}
                     </h3>
-                    <div>
-                      <ExternalLinkIcon className="h-6 w-6 rounded-sm text-secondary-foreground/50 transition-colors duration-300 group-hover:text-primary" />
-                    </div>
+                    <ExternalLinkIcon className="h-6 w-6 shrink-0 rounded-sm text-secondary-foreground/50 transition-colors duration-300 group-hover:text-primary" />
                   </div>
-                  <ul className="mb-2 flex flex-row flex-wrap gap-2 text-nowrap text-sm text-secondary-foreground/90">
+                  <ul className="mb-2 flex flex-row flex-wrap gap-2 text-sm text-secondary-foreground/90">
                     <li className="font-medium text-secondary-foreground">
                       {item.company}
                     </li>
@@ -144,14 +142,14 @@ async function SearchPage({ searchParams }: SearchPageProps) {
                       </>
                     )}
                   </ul>
-                  <ul className="mb-3 ml-5 max-w-[50ch] list-disc leading-normal text-secondary-foreground/80">
+                  <ul className="mb-3 ml-5 max-w-[50ch] list-disc break-words leading-normal text-secondary-foreground/80">
                     {formatDescriptions(item.description).map((item, i) => (
                       <li key={i}>{item}</li>
                     ))}
                   </ul>
-                  <div className="flex items-end justify-between text-sm text-secondary-foreground/70">
-                    <span className="">{item.location}</span>
-                    <span className="">{item.date}</span>
+                  <div className="flex items-end justify-between gap-4 text-sm text-secondary-foreground/70">
+                    <span>{item.location}</span>
+                    <span>{item.date}</span>
                   </div>
                 </Link>
               </li>
