@@ -87,7 +87,7 @@ export async function fetchJobs(searchParams: SearchParams) {
               {
                 _fn: "xpath",
                 _args: [
-                  ".//table[@class='css-1u8dvic eu4oa1w0']//div[@class='css-9446fg eu4oa1w0']//ul/li//text()",
+                  ".//table[@class='css-1u8dvic eu4oa1w0']//div[@class='css-9446fg eu4oa1w0']//ul/li//text() | .//table[@class='css-1u8dvic eu4oa1w0']//div[@class='css-9446fg eu4oa1w0']/text()",
                 ],
               },
             ],
