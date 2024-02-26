@@ -104,30 +104,21 @@ async function SearchPage({ searchParams }: SearchPageProps) {
     <>
       <section className="mx-auto flex max-w-7xl flex-col justify-between gap-6 bg-white px-6 py-6 md:flex-row md:py-10 lg:py-16 xl:py-16">
         <div className={cn("w-full", related_jobs && "md:w-2/3")}>
-          <h2 className="mb-1 text-lg font-bold tracking-tight text-neutral-800">
-            {total_jobs} found
-          </h2>
-          <div className="mb-6 flex flex-col text-sm">
-            Click here for original data:
+          <div className="mb-6 flex items-center justify-between gap-2">
+            <h2 className="text-lg font-bold tracking-tight text-neutral-800">
+              {total_jobs} found
+            </h2>
             <a
-              className="underline underline-offset-4 hover:text-secondary-foreground/90"
+              className="group text-sm underline underline-offset-4 transition-colors duration-300 hover:text-secondary-foreground/90"
               href={`${searchParams.url}&l=${searchParams.l}${startParam !== 0 ? `&start=${startParam}&radius=50` : "&radius=50"}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              {title}
+              <span className="flex items-center justify-center gap-2">
+                See original
+                <ExternalLinkIcon className="h-4 w-4 shrink-0 rounded-sm " />
+              </span>
             </a>
-            {/* <div>
-              <Select defaultValue="relevant">
-                <SelectTrigger className="mr-2">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="relevant">Relevant</SelectItem>
-                  <SelectItem value="date">Date</SelectItem>
-                </SelectContent>
-              </Select>
-            </div> */}
           </div>
           <ul className="mb-6 flex flex-col gap-4">
             {jobs.map((item, i) => (
@@ -197,7 +188,7 @@ async function SearchPage({ searchParams }: SearchPageProps) {
         </div>
         {related_jobs && (
           <div className="w-full md:w-1/3">
-            <h2 className="mb-3 text-lg font-bold tracking-tight text-neutral-800">
+            <h2 className="mb-[1.35rem] text-lg font-bold tracking-tight text-neutral-800">
               People also searched
             </h2>
             <ul className="flex flex-wrap gap-2">
