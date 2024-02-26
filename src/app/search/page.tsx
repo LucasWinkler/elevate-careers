@@ -86,18 +86,21 @@ async function SearchPage({ searchParams }: SearchPageProps) {
     return <div>No results...</div>;
   }
 
-  const { jobs, total_jobs, related_jobs } = results.content;
+  const { jobs, total_jobs, related_jobs, title } = results.content;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_SCRAPING_URL;
   const startParam = searchParams.start ? Number(searchParams.start) : 0;
+  console.log(
+    `${searchParams.url}&l=${searchParams.l}${startParam !== 0 ? `&start=${startParam}&radius=50` : "&radius=50"}`,
+  );
 
   const getPreviousPageUrl = () => {
     const start = Math.max(0, startParam - START_PARAM);
-    return `/search?url=${searchParams.url}&l=${searchParams.l}${start !== 0 ? `&start=${start}` : ""}`;
+    return `/search?url=${searchParams.url}&l=${searchParams.l}${start !== 0 ? `&start=${start}&radius=50` : "&radius=50"}`;
   };
 
   const getNextPageUrl = () => {
     const start = startParam + START_PARAM;
-    return `/search?url=${searchParams.url}&l=${searchParams.l}&start=${start}`;
+    return `/search?url=${searchParams.url}&l=${searchParams.l}&start=${start}&radius=50`;
   };
 
   return (
@@ -105,9 +108,22 @@ async function SearchPage({ searchParams }: SearchPageProps) {
       <section className="mx-auto flex max-w-7xl flex-col justify-between gap-6 bg-white px-6 py-6 md:flex-row md:py-10 lg:py-16 xl:py-16">
         <div className={cn("w-full space-y-6", related_jobs && "md:w-2/3")}>
           <div className="flex w-full justify-between self-start">
-            <h2 className="text-lg font-bold tracking-tight text-neutral-800">
-              {total_jobs} found
-            </h2>
+            <div>
+              <h2 className="text-lg font-bold tracking-tight text-neutral-800">
+                {total_jobs} found
+              </h2>
+              <div className="flex flex-col text-xs sm:text-sm">
+                Click here for original data:
+                <a
+                  className="underline underline-offset-4 hover:text-secondary-foreground/90"
+                  href={`${searchParams.url}&l=${searchParams.l}${startParam !== 0 ? `&start=${startParam}&radius=50` : "&radius=50"}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {title}
+                </a>
+              </div>
+            </div>
             <div>
               <Select defaultValue="relevant">
                 <SelectTrigger className="mr-2">
@@ -192,14 +208,19 @@ async function SearchPage({ searchParams }: SearchPageProps) {
               People also searched
             </h2>
             <ul className="flex flex-wrap gap-2">
-              {related_jobs.map((title, i) => (
+              {related_jobs.map((title) => (
                 <li key={title}>
                   <Button
+                    asChild
                     size="sm"
                     className={badgeVariants({ variant: "secondary" })}
                   >
-                    <SearchIcon className="mr-2 h-3 w-3" />
-                    {title}
+                    <Link
+                      href={`/search?url=${baseUrl}/jobs?q=${title}&l=${searchParams.l}&radius=50`}
+                    >
+                      <SearchIcon className="mr-2 h-3 w-3" />
+                      {title}
+                    </Link>
                   </Button>
                 </li>
               ))}
