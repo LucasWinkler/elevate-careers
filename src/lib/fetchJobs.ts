@@ -56,6 +56,14 @@ export async function fetchJobs(searchParams: SearchParams) {
               },
             ],
           },
+          rating: {
+            _fns: [
+              {
+                _fn: "xpath_one",
+                _args: [".//span[@data-testid='holistic-rating']//span/text()"],
+              },
+            ],
+          },
           location: {
             _fns: [
               {
@@ -64,12 +72,12 @@ export async function fetchJobs(searchParams: SearchParams) {
               },
             ],
           },
-          salary: {
+          metadata: {
             _fns: [
               {
-                _fn: "xpath_one",
+                _fn: "xpath",
                 _args: [
-                  ".//div[contains(@class, 'salary-snippet-container') or contains(@class, 'estimated-salary')]//text()",
+                  ".//div[contains(@class, 'jobMetaDataGroup')]//div[contains(@class, 'metadataContainer')]//div[contains(@class, 'metadata')]//div[@data-testid='attribute_snippet_testid']/text()",
                 ],
               },
             ],

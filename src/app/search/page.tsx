@@ -1,10 +1,10 @@
 export const maxDuration = 300;
 
-import { fetchJobs } from "@/lib/fetchResults";
+import { fetchJobs } from "@/lib/fetchJobs";
 import { notFound } from "next/navigation";
 import { Badge, badgeVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLinkIcon, SearchIcon } from "lucide-react";
+import { ExternalLinkIcon, SearchIcon, StarIcon } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -134,17 +134,29 @@ async function SearchPage({ searchParams }: SearchPageProps) {
                     <ExternalLinkIcon className="h-6 w-6 shrink-0 rounded-sm text-secondary-foreground/50 transition-colors duration-300 group-hover:text-primary" />
                   </div>
                   <ul className="mb-2 flex flex-row flex-wrap gap-2 text-sm text-secondary-foreground/90">
-                    <li className="font-medium text-secondary-foreground">
+                    <li className="flex items-center gap-2 font-medium text-secondary-foreground">
                       {item.company}
+                      {item.rating != null && (
+                        <Badge
+                          variant="outline"
+                          className="flex items-center gap-1 text-secondary-foreground/90"
+                        >
+                          <span className="sr-only">
+                            Rating is {item.rating} out of 5 stars
+                          </span>
+                          {item.rating}
+                          <StarIcon
+                            strokeWidth="0"
+                            className="h-3 w-3 fill-current text-secondary-foreground/80"
+                          />
+                        </Badge>
+                      )}
                     </li>
-                    {item.salary != null && (
-                      <>
-                        {/* <li>&#8226;</li> */}
-                        <li>
-                          <Badge>{item.salary}</Badge>
-                        </li>
-                      </>
-                    )}
+                    {item.metadata?.map((metadata, i) => (
+                      <li key={metadata}>
+                        <Badge>{metadata}</Badge>
+                      </li>
+                    ))}
                   </ul>
                   <ul className="mb-3 ml-5 max-w-[50ch] list-disc break-words leading-normal text-secondary-foreground/80">
                     {formatDescriptions(item.description).map((item, i) => (

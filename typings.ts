@@ -1,8 +1,9 @@
 export type Job = {
   title: string;
   company: string;
+  rating: string;
   location: string;
-  salary: string | null;
+  metadata: string[];
   description: string[];
   date: string;
   link: string;
