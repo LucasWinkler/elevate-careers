@@ -8,7 +8,7 @@ export type Job = {
   link: string;
 };
 
-export type Result = {
+export type JobResults = {
   content: {
     title: string;
     jobs: Job[];

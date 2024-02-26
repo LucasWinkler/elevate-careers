@@ -1,6 +1,6 @@
 export const maxDuration = 300;
 
-import { fetchResults } from "@/lib/fetchResults";
+import { fetchJobs } from "@/lib/fetchResults";
 import { notFound } from "next/navigation";
 import { Badge, badgeVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -38,17 +38,17 @@ interface PaginationProps {
   totalItems: string;
 }
 
-const JOBS_PER_PAGE = 15;
+const START_PARAM = 10;
 
 const generatePaginationLinks = ({
   searchParams,
   totalItems,
 }: PaginationProps) => {
-  const totalPages = Math.ceil(Number(totalItems) / JOBS_PER_PAGE);
+  const totalPages = Math.ceil(Number(totalItems) / START_PARAM);
 
   const links = [];
   for (let i = 1; i <= totalPages; i++) {
-    const start = (i - 1) * JOBS_PER_PAGE;
+    const start = (i - 1) * START_PARAM;
     links.push(
       <PaginationItem key={i}>
         <PaginationLink
@@ -63,6 +63,10 @@ const generatePaginationLinks = ({
 };
 
 function formatDescriptions(descriptions: string[]): string[] {
+  if (!descriptions || descriptions === null) {
+    return ["Please click to find out more."];
+  }
+
   const formattedDescriptions: string[] = descriptions
     .join(" ")
     .split(/[.\n]+/)
@@ -76,7 +80,7 @@ async function SearchPage({ searchParams }: SearchPageProps) {
     return notFound();
   }
 
-  const results = await fetchResults(searchParams);
+  const results = await fetchJobs(searchParams);
 
   if (!results) {
     return <div>No results...</div>;
@@ -87,12 +91,12 @@ async function SearchPage({ searchParams }: SearchPageProps) {
   const startParam = searchParams.start ? Number(searchParams.start) : 0;
 
   const getPreviousPageUrl = () => {
-    const start = Math.max(0, startParam - JOBS_PER_PAGE);
+    const start = Math.max(0, startParam - START_PARAM);
     return `/search?url=${searchParams.url}&l=${searchParams.l}${start !== 0 ? `&start=${start}` : ""}`;
   };
 
   const getNextPageUrl = () => {
-    const start = startParam + JOBS_PER_PAGE;
+    const start = startParam + START_PARAM;
     return `/search?url=${searchParams.url}&l=${searchParams.l}&start=${start}`;
   };
 

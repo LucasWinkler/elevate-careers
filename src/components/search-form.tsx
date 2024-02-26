@@ -15,16 +15,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { MapPinIcon, SearchIcon } from "lucide-react";
 import { useRef } from "react";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   keywords: z.string().min(2).max(64),
   location: z.string().min(2).max(64),
 });
 
-function SearchForm() {
-  const router = useRouter();
+const DEFAULT_SEARCH_RADIUS = "50";
 
+function SearchForm() {
   const keywordsInputRef = useRef<HTMLInputElement>(null);
   const locationInputRef = useRef<HTMLInputElement>(null);
 
@@ -43,8 +42,11 @@ function SearchForm() {
 
     url.searchParams.set("q", keywords.trim());
     url.searchParams.set("l", location.trim());
+    url.searchParams.set("radius", DEFAULT_SEARCH_RADIUS);
 
     // router.push(`/search?url=${url.href}`);
+    // Switched to window.location.href to force show the
+    // skeleton loader although form state doesn't save this way
     window.location.href = `/search?url=${url.href}`;
   }
 
