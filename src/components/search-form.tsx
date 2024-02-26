@@ -44,9 +44,8 @@ function SearchForm() {
     url.searchParams.set("l", location.trim());
     url.searchParams.set("radius", DEFAULT_SEARCH_RADIUS);
 
-    // router.push(`/search?url=${url.href}`);
-    // Switched to window.location.href to force show the
-    // skeleton loader although form state doesn't save this way
+    // Switched to window.location.href over router.push to force
+    // the skeleton loader although form state doesn't save this way
     window.location.href = `/search?url=${url.href}`;
   }
 

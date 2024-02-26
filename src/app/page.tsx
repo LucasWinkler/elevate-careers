@@ -1,3 +1,3 @@
 export default function Home() {
-  return <>{/* <h1>ElevateCareers</h1> */}</>;
+  return <section></section>;
 }
