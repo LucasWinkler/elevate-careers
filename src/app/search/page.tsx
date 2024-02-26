@@ -129,7 +129,7 @@ async function SearchPage({ searchParams }: SearchPageProps) {
               </Select>
             </div> */}
           </div>
-          <ul className="flex flex-col gap-4">
+          <ul className="mb-6 flex flex-col gap-4">
             {jobs.map((item, i) => (
               <li key={item.link} className="">
                 <Link
