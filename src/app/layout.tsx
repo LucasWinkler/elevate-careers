@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header";
 import HeadsUp from "@/components/heads-up";
+import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "Reach New Heights in Your Career - ElevateCareers",
@@ -20,10 +21,11 @@ export default function RootLayout({
         <link rel="preconnect" href="https://rsms.me/" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css"></link>
       </head>
-      <body className="bg-neutral-100 leading-relaxed antialiased">
+      <body className="flex min-h-screen flex-col leading-relaxed antialiased">
         <Header />
         <HeadsUp />
         <main className="bg-white">{children}</main>
+        <Footer />
       </body>
     </html>
   );

@@ -17,3 +17,18 @@ export type JobResults = {
     related_jobs: string[];
   };
 };
+
+export type SearchParams = {
+  url: URL;
+  l: string;
+  start: string;
+};
+
+export type SearchPageProps = {
+  searchParams: SearchParams;
+};
+
+export interface PaginationProps {
+  searchParams: SearchParams;
+  totalItems: string;
+}
