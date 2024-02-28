@@ -4,12 +4,7 @@ import { fetchJobs } from "@/lib/fetchJobs";
 import { notFound } from "next/navigation";
 import { Badge, badgeVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  ExternalLinkIcon,
-  SearchIcon,
-  SearchXIcon,
-  StarIcon,
-} from "lucide-react";
+import { ExternalLinkIcon, SearchIcon, StarIcon } from "lucide-react";
 import Link from "next/link";
 import {
   Pagination,
