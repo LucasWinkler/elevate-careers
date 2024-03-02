@@ -1,4 +1,4 @@
-<!-- ![image](https://github.com/lucaswinkler/elevatecareers/assets/) -->
+![image](./screenshot.png)
 
 # ElevateCareers
 
