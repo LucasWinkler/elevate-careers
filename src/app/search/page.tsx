@@ -49,7 +49,11 @@ async function SearchPage({ searchParams }: SearchPageProps) {
 
   const results = await fetchJobs(searchParams);
 
-  if (!results) {
+  if (
+    !results ||
+    !results?.content?.jobs?.length ||
+    results?.content?.jobs?.length === 0
+  ) {
     return <NoResults />;
   }
 

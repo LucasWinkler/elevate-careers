@@ -35,7 +35,7 @@ export async function fetchJobs(searchParams: SearchParams) {
         _fns: [
           {
             _fn: "xpath",
-            _args: [".//div[@data-testid='slider_item']"],
+            _args: [".//div[@class='job_seen_beacon']"],
           },
         ],
         _items: {
@@ -152,14 +152,11 @@ export async function fetchJobs(searchParams: SearchParams) {
 
       const result: JobResults = data.results[0];
 
+      console.log("-- Query start --");
       console.log("result.content.title:", result.content.title);
       console.log("result.content.total_jobs:", result.content.total_jobs);
-      result.content.jobs.map((job) => {
-        console.log(`job.description for ${job.title}:`, job.description);
-      });
-      // result.content.jobs[0].description.map((description) => console.log('description:', description))
-
-      result.content.related_jobs;
+      console.log("result.content.jobs:", result.content.jobs);
+      console.log("-- Query end --");
 
       return result;
     })
